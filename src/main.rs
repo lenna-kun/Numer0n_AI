@@ -150,7 +150,6 @@ impl Numer0nData {
         }
     }
     fn reduce_cand(&mut self) {
-        // let mut remove_list: Vec<usize> = Vec::new();
         for i in (0..self.cand.len()).rev() { // 後ろから消さないとおかしなことになる
             let mut et: usize = 0;
             let mut bt: usize = 0;
@@ -168,12 +167,8 @@ impl Numer0nData {
             }
             if self.eat != et || self.bite != bt {
                 self.cand.swap_remove(i);
-                // remove_list.push(i);
             }
         }
-        // for i in remove_list.iter().rev() { // 後ろから消さないとおかしなことになる
-        //     self.cand.swap_remove(*i);
-        // }
     }
 }
 
