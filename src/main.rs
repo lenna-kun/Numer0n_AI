@@ -1,6 +1,3 @@
-extern crate rand;
-use rand::Rng;
-
 use std::io::*;
 
 fn read_int(s: &mut StdinLock) -> usize {
@@ -123,19 +120,6 @@ fn main() {
     let mut s = s.lock();
     println!("initializing...");
     let mut numer0n_data = Numer0nData::new();
-    let mut rng = rand::thread_rng();
-    let mut my_number: [usize; 4] = [0, 0, 0, 0];
-    for i in 0..4 {
-        loop {
-            let n = rng.gen::<usize>() % 10;
-            if my_number[0..i].iter().filter(|&&x| x == n).count() <= 1 {
-                my_number[i] = n;
-                break;
-            }
-        }
-    }
-    println!("My number is {}{}{}{}.", my_number[0], my_number[1], my_number[2], my_number[3]);    
-
     loop {
         println!("{}", numer0n_data.cand);
         println!("guessing...");
