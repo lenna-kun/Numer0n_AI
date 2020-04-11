@@ -2,7 +2,6 @@ extern crate rand;
 use rand::Rng;
 
 use std::io::*;
-// use std::collections::{ HashSet, HashMap };
 
 fn read_int(s: &mut StdinLock) -> usize {
     s.by_ref().bytes().map(|c| c.unwrap() as char)
@@ -188,8 +187,7 @@ fn main() {
             }
         }
     }
-    println!("My number is {}{}{}{}.", my_number[0], my_number[1], my_number[2], my_number[3]);
-    
+    println!("My number is {}{}{}{}.", my_number[0], my_number[1], my_number[2], my_number[3]);    
 
     loop {
         println!("guessing...");
