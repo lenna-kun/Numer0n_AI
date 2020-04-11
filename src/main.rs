@@ -82,79 +82,8 @@ impl Numer0nData {
         } else if self.cand.0.len() <= 2 {
             self.guess =  self.cand.0[0];
             return;
-        } else if self.guess.packed_decimal == i32_to_packed_decimal(0012) {
-            match self.bite {
-                0 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = Numer0nItem::from(3345);
-                        },
-                        1 => {
-                            self.guess = Numer0nItem::from(3415);
-                        },
-                        2 => {
-                            self.guess = Numer0nItem::from(0345);
-                        },
-                        3 => {
-                            self.guess = Numer0nItem::from(3415);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                1 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = Numer0nItem::from(1134);
-                        },
-                        1 => {
-                            self.guess = Numer0nItem::from(0304);
-                        },
-                        2 => {
-                            self.guess = Numer0nItem::from(0113);
-                        },
-                        3 => {
-                            self.guess = Numer0nItem::from(0345);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                2 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = Numer0nItem::from(3405);
-                        },
-                        1 => {
-                            self.guess = Numer0nItem::from(0121);
-                        },
-                        2 => {
-                            self.guess = Numer0nItem::from(0345);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                3 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = Numer0nItem::from(1120);
-                        },
-                        1 => {
-                            self.guess = Numer0nItem::from(0121);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                4 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = Numer0nItem::from(1120);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                _ => panic!("unexpected error."),
-            }
-            return;
         }
+        
         let mut min: usize = usize::max_value();
         'search: for guess in &self.all_numer0n_items.0 {
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
