@@ -156,7 +156,7 @@ impl Numer0nData {
             return;
         }
         let mut min: usize = usize::max_value();
-        for guess in &self.all_numer0n_items.0 {
+        'search: for guess in &self.all_numer0n_items.0 {
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
             for c in &self.cand.0 {
                 let eat: usize = c.eat(guess);
@@ -167,6 +167,9 @@ impl Numer0nData {
             for k in 0..5 {
                 for l in 0..5 {
                     max = std::cmp::max(max, mat[k][l]);
+                    if min <= max {
+                        continue 'search; // pruning
+                    }
                 }
             }
             if min > max {
