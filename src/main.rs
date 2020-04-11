@@ -30,7 +30,7 @@ impl Numer0nData {
             bite: 0,
         }
     }
-    fn next_guess(&mut self) {
+    fn set_next_guess(&mut self) {
         if self.cand.len() == 10000 {
             self.guess = [0, 0, 1, 2];
             return;
@@ -191,7 +191,7 @@ fn main() {
 
     loop {
         println!("guessing...");
-        numer0n_data.next_guess();
+        numer0n_data.set_next_guess();
         println!("My guess is {}{}{}{}.", numer0n_data.guess[0], numer0n_data.guess[1], numer0n_data.guess[2], numer0n_data.guess[3]);
         numer0n_data.eat = read_int(&mut s);
         numer0n_data.bite = read_int(&mut s);
