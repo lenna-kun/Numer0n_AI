@@ -21,10 +21,12 @@ impl Numer0nItem {
             bit_table: bit_table::from_multiple_digits(num, 4),
         }
     }
+
     pub fn eat(self, call: &Self) -> usize {
         let xor = self.packed_decimal ^ call.packed_decimal;
         (0..4).fold(0, |et, i| if (xor << (4*i)) >> 12 == 0 { et + 1 } else { et })
     }
+    
     pub fn eat_bite(self, call: &Self) -> usize {
         (0..4).fold(0, |eb, i| if (self.bit_table & call.call_bit[i]) > 0 { eb + 1 } else { eb }) 
     }

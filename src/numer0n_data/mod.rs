@@ -10,8 +10,8 @@ pub enum DisplayMode {
 }
 
 pub struct Numer0nData {
-    pub cand: numer0n_items::Numer0nItems,
-    pub all_numer0n_items: numer0n_items::Numer0nItems,
+    cand: numer0n_items::Numer0nItems,
+    all_numer0n_items: numer0n_items::Numer0nItems,
     pub guess: numer0n_item::Numer0nItem,
     pub eat: usize,
     pub bite: usize,
@@ -28,6 +28,80 @@ impl Numer0nData {
             display_mode: display_mode,
         }
     }
+    
+    pub fn guess_from_branch_table(&mut self) {
+        match self.bite {
+            0 => {
+                match self.eat {
+                    0 => {
+                        self.guess = numer0n_item::Numer0nItem::from(3345);
+                    },
+                    1 => {
+                        self.guess = numer0n_item::Numer0nItem::from(3415);
+                    },
+                    2 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                    },
+                    3 => {
+                        self.guess = numer0n_item::Numer0nItem::from(3415);
+                    },
+                    _ => panic!("unexpected error."),
+                }
+            },
+            1 => {
+                match self.eat {
+                    0 => {
+                        self.guess = numer0n_item::Numer0nItem::from(1134);
+                    },
+                    1 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0304);
+                    },
+                    2 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0113);
+                    },
+                    3 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                    },
+                    _ => panic!("unexpected error."),
+                }
+            },
+            2 => {
+                match self.eat {
+                    0 => {
+                        self.guess = numer0n_item::Numer0nItem::from(3405);
+                    },
+                    1 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0121);
+                    },
+                    2 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                    },
+                    _ => panic!("unexpected error."),
+                }
+            },
+            3 => {
+                match self.eat {
+                    0 => {
+                        self.guess = numer0n_item::Numer0nItem::from(1120);
+                    },
+                    1 => {
+                        self.guess = numer0n_item::Numer0nItem::from(0121);
+                    },
+                    _ => panic!("unexpected error."),
+                }
+            },
+            4 => {
+                match self.eat {
+                    0 => {
+                        self.guess = numer0n_item::Numer0nItem::from(1120);
+                    },
+                    _ => panic!("unexpected error."),
+                }
+            },
+            _ => panic!("unexpected error."),
+        }
+    }
+
     pub fn set_next_guess(&mut self) {
         if let DisplayMode::On = self.display_mode {
             println!("{}", self.cand);
@@ -38,76 +112,7 @@ impl Numer0nData {
             self.guess =  self.cand.0[0];
             return;
         } else if self.guess.packed_decimal == packed_decimal::i32_to_packed_decimal(0012) {
-            match self.bite {
-                0 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = numer0n_item::Numer0nItem::from(3345);
-                        },
-                        1 => {
-                            self.guess = numer0n_item::Numer0nItem::from(3415);
-                        },
-                        2 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0345);
-                        },
-                        3 => {
-                            self.guess = numer0n_item::Numer0nItem::from(3415);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                1 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = numer0n_item::Numer0nItem::from(1134);
-                        },
-                        1 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0304);
-                        },
-                        2 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0113);
-                        },
-                        3 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0345);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                2 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = numer0n_item::Numer0nItem::from(3405);
-                        },
-                        1 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0121);
-                        },
-                        2 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0345);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                3 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = numer0n_item::Numer0nItem::from(1120);
-                        },
-                        1 => {
-                            self.guess = numer0n_item::Numer0nItem::from(0121);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                4 => {
-                    match self.eat {
-                        0 => {
-                            self.guess = numer0n_item::Numer0nItem::from(1120);
-                        },
-                        _ => panic!("unexpected error."),
-                    }
-                },
-                _ => panic!("unexpected error."),
-            }
+            self.guess_from_branch_table();
             return;
         }
         let mut min: usize = usize::max_value();
@@ -133,6 +138,7 @@ impl Numer0nData {
             }
         }
     }
+
     pub fn reduce_cand(&mut self) {
         for i in (0..self.cand.0.len()).rev() { // If candidates is not erased from behind, it will behave unintentionally.
             let et: usize = self.cand.0[i].eat(&self.guess);
