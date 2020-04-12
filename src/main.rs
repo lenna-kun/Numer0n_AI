@@ -15,7 +15,7 @@ fn main() {
     let s = stdin();
     let mut s = s.lock();
     println!("initializing...");
-    let mut numer0n_data = numer0n_data::Numer0nData::new(numer0n_data::DisplayMode::On);  
+    let mut numer0n_data = numer0n_data::Numer0nData::new(numer0n_data::DisplayMode::Off);  
 
     loop {
         println!("guessing...");

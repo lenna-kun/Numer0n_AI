@@ -5,7 +5,7 @@ mod numer0n_item;
 mod numer0n_items;
 
 pub enum DisplayMode {
-    On,
+    #[allow(dead_code)] On,
     #[allow(dead_code)] Off,
 }
 
@@ -28,7 +28,7 @@ impl Numer0nData {
             display_mode: display_mode,
         }
     }
-    
+
     pub fn guess_from_branch_table(&mut self) {
         match self.bite {
             0 => {
