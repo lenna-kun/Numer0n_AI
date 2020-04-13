@@ -13,20 +13,20 @@ pub struct Numer0nData {
 }
 impl Numer0nData {
     pub fn new() -> Self {
-        print!("   \x1b[1m\x1b[96mInitializing\x1b[0m [                                                  ] {:>5}/10000", 0);
+        print!("\x1b[1m\x1b[96mInitializing\x1b[0m [                                                  ] {:>5}/10000", 0);
         let all_numer0n_items = numer0n_items::Numer0nItems((0..10000).map(|i| {
             let progress = i / 200;
             if progress > 0 {
-                print!("\x1b[{}G=>", 17 + progress);
+                print!("\x1b[{}G=>", 14 + progress);
             }
-            print!("\x1b[70G{:>5}", i);
+            print!("\x1b[67G{:>5}", i);
             numer0n_item::Numer0nItem::from(i)
         }).collect());
-        println!("\x1b[4G\x1b[1m\x1b[92mInitialized\x1b[0m                                                                  ");
+        println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m                                                                  ");
         Numer0nData {
             cand: all_numer0n_items.clone(),
             all_numer0n_items: all_numer0n_items,
-            call: numer0n_item::Numer0nItem::from(0012),
+            call: numer0n_item::Numer0nItem::from(9987),
             eat: 0,
             bite: 0,
         }
@@ -106,20 +106,21 @@ impl Numer0nData {
     }
 
     pub fn set_next_call(&mut self) {
+        print!("{}", super::stdin::cursor::Hide);
         if self.cand.0.len() == 10000 {
-            println!("    My call is \x1b[1m\x1b[93m0012\x1b[0m.");
+            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m9987\x1b[0m");
             return;
         } else if self.cand.0.len() <= 2 {
             self.call =  self.cand.0[0];
-            println!("    My call is \x1b[1m\x1b[93m{}\x1b[0m.", self.call);
+            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m", self.call);
             return;
-        } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(0012) {
+        } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(9987) {
             self.call_from_branch_table();
-            println!("    My call is \x1b[1m\x1b[93m{}\x1b[0m.", self.call);
+            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m", self.call);
             return;
         }
         let mut min: usize = 10000;
-        print!("    \x1b[1m\x1b[96mThinking\x1b[0m [                                                  ] {:>5}/10000", 0);
+        print!(" \x1b[1m\x1b[96mThinking\x1b[0m [                                                  ] {:>5}/10000", 0);
         'search: for i in 0..10000 {
             let progress = i / 200;
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
@@ -133,8 +134,8 @@ impl Numer0nData {
                 for l in 0..5 {
                     max = std::cmp::max(max, mat[k][l]);
                     if min < max {
-                        if progress > 0 { print!("\x1b[{}G=>", 14 + progress); }
-                        print!("\x1b[67G{:>5}", i);
+                        if progress > 0 { print!("\x1b[{}G=>", 11 + progress); }
+                        print!("\x1b[64G{:>5}", i);
                         continue 'search; // pruning
                     }
                 }
@@ -145,10 +146,10 @@ impl Numer0nData {
             } else if min == max && self.cand.0.contains(&self.all_numer0n_items.0[i]) {
                 self.call = self.all_numer0n_items.0[i];
             }
-            if progress > 0 { print!("\x1b[{}G=>", 14 + progress); }
-            print!("\x1b[67G{:>5}", i);
+            if progress > 0 { print!("\x1b[{}G=>", 11 + progress); }
+            print!("\x1b[64G{:>5}", i);
         }
-        println!("\x1b[5GMy call is \x1b[1m\x1b[93m{}\x1b[0m.                                                         ", self.call);
+        println!("\x1b[2G\x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m                                                               ", self.call);
     }
 
     pub fn reduce_cand(&mut self) {
