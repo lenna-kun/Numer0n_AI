@@ -115,7 +115,7 @@ impl Numer0nData {
             self.guess_from_branch_table();
             return;
         }
-        let mut min: usize = usize::max_value();
+        let mut min: usize = 10000;
         'search: for guess in &self.all_numer0n_items.0 {
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
             for c in &self.cand.0 {
