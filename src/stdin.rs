@@ -1,7 +1,8 @@
 extern crate termion;
 
 use std::io::{stdin, stdout, Write};
-pub use termion::cursor;
+
+use termion::cursor;
 use termion::event::{Event, Key};
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
@@ -11,6 +12,10 @@ type Pair<'a, 'b> = (&'a mut usize, &'b str);
 pub enum Error {
     KeyboardInterrupt,
     NotEnoughInput,
+}
+
+pub fn hide_cursor() {
+    print!("{}", cursor::Hide);
 }
 
 pub fn read_pair(var1: Pair, var2: Pair, indent: usize) -> std::result::Result<(), Error> {

@@ -1,5 +1,6 @@
 use super::bit_table;
 use super::packed_decimal;
+use super::stdin;
 
 mod numer0n_item;
 mod numer0n_items;
@@ -105,24 +106,32 @@ impl Numer0nData {
         }
     }
 
-    pub fn set_next_call(&mut self) {
-        print!("{}", super::stdin::cursor::Hide);
-        if self.cand.0.len() == 10000 {
-            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m9987\x1b[0m");
+    pub fn print_progress(&self, p: usize, deno: usize) {
+        let progress = p/200;
+        if p == 0 {
+            print!(" \x1b[1m\x1b[96mThinking\x1b[0m [                                                  ] {:>3}.0%", 0);
             return;
-        } else if self.cand.0.len() <= 2 {
-            self.call =  self.cand.0[0];
-            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m", self.call);
+        } else if p == deno-1 {
+            println!("\x1b[2G\x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m                                                               ", self.call);
+            return;
+        } else if progress > 0 {
+            print!("\x1b[{}G=>", 11 + progress);
+        }
+        print!("\x1b[64G{:>3}.{}", p/(deno/100), p/10);
+    }
+
+    pub fn set_next_call(&mut self) {
+        stdin::hide_cursor();
+        if self.cand.0.len() == 10000 {
+            self.print_progress(1, 2);
             return;
         } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(9987) {
             self.call_from_branch_table();
-            println!(" \x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m", self.call);
+            self.print_progress(1, 2);
             return;
         }
         let mut min: usize = 10000;
-        print!(" \x1b[1m\x1b[96mThinking\x1b[0m [                                                  ] {:>5}/10000", 0);
         'search: for i in 0..10000 {
-            let progress = i / 200;
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
             for c in &self.cand.0 {
                 let eat: usize = c.eat(&self.all_numer0n_items.0[i]);
@@ -134,8 +143,7 @@ impl Numer0nData {
                 for l in 0..5 {
                     max = std::cmp::max(max, mat[k][l]);
                     if min < max {
-                        if progress > 0 { print!("\x1b[{}G=>", 11 + progress); }
-                        print!("\x1b[64G{:>5}", i);
+                        self.print_progress(i, 10000);
                         continue 'search; // pruning
                     }
                 }
@@ -146,10 +154,8 @@ impl Numer0nData {
             } else if min == max && self.cand.0.contains(&self.all_numer0n_items.0[i]) {
                 self.call = self.all_numer0n_items.0[i];
             }
-            if progress > 0 { print!("\x1b[{}G=>", 11 + progress); }
-            print!("\x1b[64G{:>5}", i);
+            self.print_progress(i, 10000);
         }
-        println!("\x1b[2G\x1b[1m\x1b[96mCALL: \x1b[93m{}\x1b[0m                                                               ", self.call);
     }
 
     pub fn reduce_cand(&mut self) {
