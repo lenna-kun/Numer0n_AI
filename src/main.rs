@@ -9,7 +9,7 @@ fn main() {
     loop {
         numer0n_data.set_next_call();
         loop {
-            match stdin::read_pair((&mut numer0n_data.eat, "eat"), (&mut numer0n_data.bite, "bite"), 2) {
+            match stdin::read_pair((&mut numer0n_data.eat, "eat"), (&mut numer0n_data.bite, "bite")) {
                 Err(e) => {
                     if let stdin::Error::KeyboardInterrupt = e { return; } else { continue; }
                 },

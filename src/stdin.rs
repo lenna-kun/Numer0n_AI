@@ -18,14 +18,14 @@ pub fn hide_cursor() {
     print!("{}", cursor::Hide);
 }
 
-pub fn read_pair(var1: Pair, var2: Pair, indent: usize) -> std::result::Result<(), Error> {
+pub fn read_pair(var1: Pair, var2: Pair) -> std::result::Result<(), Error> {
     let stdin = stdin();
     let mut stdout = stdout().into_raw_mode().unwrap();
     let mut v1: usize = 0;
     let mut v2: usize = 0;
 
     write!(stdout, "\x1b[1m\x1b[{}G{}:   {}:  {}{}\x1b[91m",
-        indent+1, var1.1, var2.1, 
+        3, var1.1, var2.1, 
         cursor::Left((5+var2.1.len()) as u16), cursor::Show).unwrap();
     stdout.flush().unwrap();
     let mut input_cnt: i8 = 0;
@@ -41,9 +41,9 @@ pub fn read_pair(var1: Pair, var2: Pair, indent: usize) -> std::result::Result<(
             },
             Event::Key(Key::Backspace) => {
                 if input_cnt == 1 {
-                    write!(stdout, "\x1b[{}G {}", 3 + indent + var1.1.len(), cursor::Left(1)).unwrap();
+                    write!(stdout, "\x1b[{}G {}", 5 + var1.1.len(), cursor::Left(1)).unwrap();
                 } else if input_cnt == 2 {
-                    write!(stdout, "\x1b[{}G {}", 7 + indent + var1.1.len() + var2.1.len(), cursor::Left(1)).unwrap();
+                    write!(stdout, "\x1b[{}G {}", 9 + var1.1.len() + var2.1.len(), cursor::Left(1)).unwrap();
                 }
                 input_cnt = std::cmp::max(input_cnt-1, 0);
                 stdout.flush().unwrap();
@@ -55,11 +55,11 @@ pub fn read_pair(var1: Pair, var2: Pair, indent: usize) -> std::result::Result<(
                 if input_cnt == 0 { 
                     v1 = num;
                     input_cnt += 1;
-                    write!(stdout, "\x1b[{}G{}{}", 3 + indent + var1.1.len(), v1, cursor::Right((3+var2.1.len()) as u16)).unwrap();
+                    write!(stdout, "\x1b[{}G{}{}", 5 + var1.1.len(), v1, cursor::Right((3+var2.1.len()) as u16)).unwrap();
                 } else if input_cnt == 1 {
                     v2 = num;
                     input_cnt += 1;
-                    write!(stdout, "\x1b[{}G{}", 7 + indent + var1.1.len() + var2.1.len(), v2).unwrap();
+                    write!(stdout, "\x1b[{}G{}", 9 + var1.1.len() + var2.1.len(), v2).unwrap();
                 }
                 stdout.flush().unwrap();
             },
