@@ -4,46 +4,49 @@ use super::packed_decimal;
 mod numer0n_item;
 mod numer0n_items;
 
-pub enum DisplayMode {
-    #[allow(dead_code)] On,
-    #[allow(dead_code)] Off,
-}
-
 pub struct Numer0nData {
     cand: numer0n_items::Numer0nItems,
     all_numer0n_items: numer0n_items::Numer0nItems,
-    pub guess: numer0n_item::Numer0nItem,
+    pub call: numer0n_item::Numer0nItem,
     pub eat: usize,
     pub bite: usize,
-    display_mode: DisplayMode,
 }
 impl Numer0nData {
-    pub fn new(display_mode: DisplayMode) -> Self {
+    pub fn new() -> Self {
+        print!("   \x1b[1m\x1b[96mInitializing\x1b[0m [                                                  ] {:>5}/10000", 0);
+        let all_numer0n_items = numer0n_items::Numer0nItems((0..10000).map(|i| {
+            let progress = i / 200;
+            if progress > 0 {
+                print!("\x1b[{}G=>", 17 + progress);
+            }
+            print!("\x1b[70G{:>5}", i);
+            numer0n_item::Numer0nItem::from(i)
+        }).collect());
+        println!("\x1b[4G\x1b[1m\x1b[92mInitialized\x1b[0m                                                                  ");
         Numer0nData {
-            cand: numer0n_items::Numer0nItems((0..10000).map(|i| numer0n_item::Numer0nItem::from(i)).collect()),
-            all_numer0n_items: numer0n_items::Numer0nItems((0..10000).map(|i| numer0n_item::Numer0nItem::from(i)).collect()),
-            guess: numer0n_item::Numer0nItem::from(0012),
+            cand: all_numer0n_items.clone(),
+            all_numer0n_items: all_numer0n_items,
+            call: numer0n_item::Numer0nItem::from(0012),
             eat: 0,
             bite: 0,
-            display_mode: display_mode,
         }
     }
 
-    pub fn guess_from_branch_table(&mut self) {
+    pub fn call_from_branch_table(&mut self) {
         match self.bite {
             0 => {
                 match self.eat {
                     0 => {
-                        self.guess = numer0n_item::Numer0nItem::from(3345);
+                        self.call = numer0n_item::Numer0nItem::from(3345);
                     },
                     1 => {
-                        self.guess = numer0n_item::Numer0nItem::from(3415);
+                        self.call = numer0n_item::Numer0nItem::from(3415);
                     },
                     2 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                        self.call = numer0n_item::Numer0nItem::from(0345);
                     },
                     3 => {
-                        self.guess = numer0n_item::Numer0nItem::from(3415);
+                        self.call = numer0n_item::Numer0nItem::from(3415);
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -51,16 +54,16 @@ impl Numer0nData {
             1 => {
                 match self.eat {
                     0 => {
-                        self.guess = numer0n_item::Numer0nItem::from(1134);
+                        self.call = numer0n_item::Numer0nItem::from(1134);
                     },
                     1 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0304);
+                        self.call = numer0n_item::Numer0nItem::from(0304);
                     },
                     2 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0113);
+                        self.call = numer0n_item::Numer0nItem::from(0113);
                     },
                     3 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                        self.call = numer0n_item::Numer0nItem::from(0345);
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -68,13 +71,13 @@ impl Numer0nData {
             2 => {
                 match self.eat {
                     0 => {
-                        self.guess = numer0n_item::Numer0nItem::from(3405);
+                        self.call = numer0n_item::Numer0nItem::from(3405);
                     },
                     1 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0121);
+                        self.call = numer0n_item::Numer0nItem::from(0121);
                     },
                     2 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0345);
+                        self.call = numer0n_item::Numer0nItem::from(0345);
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -82,10 +85,10 @@ impl Numer0nData {
             3 => {
                 match self.eat {
                     0 => {
-                        self.guess = numer0n_item::Numer0nItem::from(1120);
+                        self.call = numer0n_item::Numer0nItem::from(1120);
                     },
                     1 => {
-                        self.guess = numer0n_item::Numer0nItem::from(0121);
+                        self.call = numer0n_item::Numer0nItem::from(0121);
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -93,7 +96,7 @@ impl Numer0nData {
             4 => {
                 match self.eat {
                     0 => {
-                        self.guess = numer0n_item::Numer0nItem::from(1120);
+                        self.call = numer0n_item::Numer0nItem::from(1120);
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -102,25 +105,27 @@ impl Numer0nData {
         }
     }
 
-    pub fn set_next_guess(&mut self) {
-        if let DisplayMode::On = self.display_mode {
-            println!("{}", self.cand);
-        }
+    pub fn set_next_call(&mut self) {
         if self.cand.0.len() == 10000 {
+            println!("    My call is \x1b[1m\x1b[93m0012\x1b[0m.");
             return;
         } else if self.cand.0.len() <= 2 {
-            self.guess =  self.cand.0[0];
+            self.call =  self.cand.0[0];
+            println!("    My call is \x1b[1m\x1b[93m{}\x1b[0m.", self.call);
             return;
-        } else if self.guess.packed_decimal == packed_decimal::i32_to_packed_decimal(0012) {
-            self.guess_from_branch_table();
+        } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(0012) {
+            self.call_from_branch_table();
+            println!("    My call is \x1b[1m\x1b[93m{}\x1b[0m.", self.call);
             return;
         }
         let mut min: usize = 10000;
-        'search: for guess in &self.all_numer0n_items.0 {
+        print!("    \x1b[1m\x1b[96mThinking\x1b[0m [                                                  ] {:>5}/10000", 0);
+        'search: for i in 0..10000 {
+            let progress = i / 200;
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
             for c in &self.cand.0 {
-                let eat: usize = c.eat(guess);
-                let bite: usize = c.eat_bite(guess) - eat;
+                let eat: usize = c.eat(&self.all_numer0n_items.0[i]);
+                let bite: usize = c.eat_bite(&self.all_numer0n_items.0[i]) - eat;
                 mat[eat][bite] += 1;
             }
             let mut max = 0;
@@ -128,23 +133,28 @@ impl Numer0nData {
                 for l in 0..5 {
                     max = std::cmp::max(max, mat[k][l]);
                     if min < max {
+                        if progress > 0 { print!("\x1b[{}G=>", 14 + progress); }
+                        print!("\x1b[67G{:>5}", i);
                         continue 'search; // pruning
                     }
                 }
             }
             if min > max {
-                self.guess = *guess;
+                self.call = self.all_numer0n_items.0[i];
                 min = max;
-            } else if min == max && self.cand.0.contains(guess) {
-                self.guess = *guess;
+            } else if min == max && self.cand.0.contains(&self.all_numer0n_items.0[i]) {
+                self.call = self.all_numer0n_items.0[i];
             }
+            if progress > 0 { print!("\x1b[{}G=>", 14 + progress); }
+            print!("\x1b[67G{:>5}", i);
         }
+        println!("\x1b[5GMy call is \x1b[1m\x1b[93m{}\x1b[0m.                                                         ", self.call);
     }
 
     pub fn reduce_cand(&mut self) {
         for i in (0..self.cand.0.len()).rev() { // If candidates is not erased from behind, it will behave unintentionally.
-            let et: usize = self.cand.0[i].eat(&self.guess);
-            let bt: usize = self.cand.0[i].eat_bite(&self.guess) - et;
+            let et: usize = self.cand.0[i].eat(&self.call);
+            let bt: usize = self.cand.0[i].eat_bite(&self.call) - et;
             if self.eat != et || self.bite != bt {
                 self.cand.0.swap_remove(i);
             }

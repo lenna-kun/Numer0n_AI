@@ -1,5 +1,6 @@
 use super::numer0n_item;
 
+#[derive(Clone)]
 pub struct Numer0nItems(pub Vec<numer0n_item::Numer0nItem>);
 impl std::fmt::Display for Numer0nItems {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
