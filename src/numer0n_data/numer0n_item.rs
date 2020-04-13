@@ -31,6 +31,11 @@ impl Numer0nItem {
         (0..4).fold(0, |eb, i| if (self.bit_table & call.call_bit[i]) > 0 { eb + 1 } else { eb }) 
     }
 }
+impl std::cmp::PartialEq for Numer0nItem {
+    fn eq(&self, other: &Self) -> bool {
+        self.packed_decimal == other.packed_decimal
+    }
+}
 impl std::fmt::Display for Numer0nItem {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "{}{}{}{}", self.call_bit[0].trailing_zeros(), self.call_bit[1].trailing_zeros(), self.call_bit[2].trailing_zeros(), self.call_bit[3].trailing_zeros())

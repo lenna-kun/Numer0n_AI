@@ -127,7 +127,7 @@ impl Numer0nData {
             for k in 0..5 {
                 for l in 0..5 {
                     max = std::cmp::max(max, mat[k][l]);
-                    if min <= max {
+                    if min < max {
                         continue 'search; // pruning
                     }
                 }
@@ -135,6 +135,8 @@ impl Numer0nData {
             if min > max {
                 self.guess = *guess;
                 min = max;
+            } else if min == max && self.cand.0.contains(guess) {
+                self.guess = *guess;
             }
         }
     }
