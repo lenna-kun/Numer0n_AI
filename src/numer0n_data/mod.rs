@@ -14,7 +14,12 @@ pub struct Numer0nData {
 }
 impl Numer0nData {
     pub fn new() -> Self {
-        let all_numer0n_items = numer0n_items::Numer0nItems((0..10000).map(|i|  numer0n_item::Numer0nItem::from(i)).collect());
+        let all_numer0n_items = 
+            numer0n_items::Numer0nItems(
+                (0..10000).map(|i|
+                    numer0n_item::Numer0nItem::from(i)
+                ).collect()
+            );
         println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m");
         Numer0nData {
             cand: all_numer0n_items.clone(),
