@@ -114,7 +114,7 @@ impl Numer0nData {
         } else if progress > 0 {
             print!("\x1b[{}G=>", 11 + progress);
         }
-        print!("\x1b[64G{:>3}.{}", p/(deno/100), p/10);
+        print!("\x1b[64G{:>3}.{}", p/(deno/100), p/(deno/1000)%10);
     }
 
     pub fn set_next_call(&mut self) {
