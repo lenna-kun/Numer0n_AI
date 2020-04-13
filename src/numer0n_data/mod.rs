@@ -14,16 +14,8 @@ pub struct Numer0nData {
 }
 impl Numer0nData {
     pub fn new() -> Self {
-        print!("\x1b[1m\x1b[96mInitializing\x1b[0m [                                                  ] {:>5}/10000", 0);
-        let all_numer0n_items = numer0n_items::Numer0nItems((0..10000).map(|i| {
-            let progress = i / 200;
-            if progress > 0 {
-                print!("\x1b[{}G=>", 14 + progress);
-            }
-            print!("\x1b[67G{:>5}", i);
-            numer0n_item::Numer0nItem::from(i)
-        }).collect());
-        println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m                                                                  ");
+        let all_numer0n_items = numer0n_items::Numer0nItems((0..10000).map(|i|  numer0n_item::Numer0nItem::from(i)).collect());
+        println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m");
         Numer0nData {
             cand: all_numer0n_items.clone(),
             all_numer0n_items: all_numer0n_items,
