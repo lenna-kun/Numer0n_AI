@@ -128,7 +128,7 @@ impl Numer0nData {
             return;
         }
         let mut min: usize = 10000;
-        'search: for i in 0..10000 {
+        'search: for i in 0..10000 { // α-β法
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
             for c in &self.cand.0 {
                 let eat: usize = c.eat(&self.all_numer0n_items.0[i]);
