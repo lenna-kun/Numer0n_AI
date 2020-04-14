@@ -6,23 +6,21 @@ mod numer0n_item;
 mod numer0n_items;
 
 pub struct Numer0nData {
-    cand: numer0n_items::Numer0nItems,
-    all_numer0n_items: numer0n_items::Numer0nItems,
+    cand: Vec<numer0n_item::Numer0nItem>,
+    all_numer0n_items: Vec<numer0n_item::Numer0nItem>,
     pub call: numer0n_item::Numer0nItem,
     pub eat: usize,
     pub bite: usize,
 }
 impl Numer0nData {
     pub fn new() -> Self {
-        let all_numer0n_items = 
-            numer0n_items::Numer0nItems(
-                (0..10000).map(|i|
-                    numer0n_item::Numer0nItem::from(i)
-                ).collect()
-            );
+        let all_numer0n_items: Vec<numer0n_item::Numer0nItem> = 
+            (0..10000).map(|i|
+                numer0n_item::Numer0nItem::from(i)
+            ).collect();
         println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m");
         Numer0nData {
-            call: all_numer0n_items.0[9987],
+            call: all_numer0n_items[9987],
             cand: all_numer0n_items.clone(),
             all_numer0n_items: all_numer0n_items,
             eat: 0,
@@ -35,16 +33,16 @@ impl Numer0nData {
             0 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[6654];
+                        self.call = self.all_numer0n_items[6654];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[6584];
+                        self.call = self.all_numer0n_items[6584];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[0912];
+                        self.call = self.all_numer0n_items[0912];
                     },
                     3 => {
-                        self.call = self.all_numer0n_items.0[0127];
+                        self.call = self.all_numer0n_items[0127];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -52,16 +50,16 @@ impl Numer0nData {
             1 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[8865];
+                        self.call = self.all_numer0n_items[8865];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[9695];
+                        self.call = self.all_numer0n_items[9695];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[9886];
+                        self.call = self.all_numer0n_items[9886];
                     },
                     3 => {
-                        self.call = self.all_numer0n_items.0[0912];
+                        self.call = self.all_numer0n_items[0912];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -69,13 +67,13 @@ impl Numer0nData {
             2 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[6594];
+                        self.call = self.all_numer0n_items[6594];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[7978];
+                        self.call = self.all_numer0n_items[7978];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[0127];
+                        self.call = self.all_numer0n_items[0127];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -83,10 +81,10 @@ impl Numer0nData {
             3 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[7798];
+                        self.call = self.all_numer0n_items[7798];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[9878];
+                        self.call = self.all_numer0n_items[9878];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -94,7 +92,7 @@ impl Numer0nData {
             4 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[8879];
+                        self.call = self.all_numer0n_items[8879];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -119,7 +117,7 @@ impl Numer0nData {
 
     pub fn set_next_call(&mut self) {
         stdin::hide_cursor();
-        if self.cand.0.len() == 10000 {
+        if self.cand.len() == 10000 {
             self.print_progress(1, 2);
             return;
         } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(9987) {
@@ -130,9 +128,9 @@ impl Numer0nData {
         let mut min: usize = 10000;
         'search: for i in 0..10000 { // α-β pruning
             let mut mat: [[usize; 5]; 5] = [[0; 5]; 5];
-            for c in &self.cand.0 {
-                let eat: usize = c.eat(&self.all_numer0n_items.0[i]);
-                let bite: usize = c.eat_bite(&self.all_numer0n_items.0[i]) - eat;
+            for c in &self.cand {
+                let eat: usize = c.eat(&self.all_numer0n_items[i]);
+                let bite: usize = c.eat_bite(&self.all_numer0n_items[i]) - eat;
                 mat[eat][bite] += 1;
             }
             let mut max = 0;
@@ -146,21 +144,21 @@ impl Numer0nData {
                 }
             }
             if min > max {
-                self.call = self.all_numer0n_items.0[i];
+                self.call = self.all_numer0n_items[i];
                 min = max;
-            } else if min == max && self.cand.0.contains(&self.all_numer0n_items.0[i]) {
-                self.call = self.all_numer0n_items.0[i];
+            } else if min == max && self.cand.contains(&self.all_numer0n_items[i]) {
+                self.call = self.all_numer0n_items[i];
             }
             self.print_progress(i, 10000);
         }
     }
 
     pub fn reduce_cand(&mut self) {
-        for i in (0..self.cand.0.len()).rev() { // If candidates is not erased from behind, it will behave unintentionally.
-            let et: usize = self.cand.0[i].eat(&self.call);
-            let bt: usize = self.cand.0[i].eat_bite(&self.call) - et;
+        for i in (0..self.cand.len()).rev() { // If candidates is not erased from behind, it will behave unintentionally.
+            let et: usize = self.cand[i].eat(&self.call);
+            let bt: usize = self.cand[i].eat_bite(&self.call) - et;
             if self.eat != et || self.bite != bt {
-                self.cand.0.swap_remove(i);
+                self.cand.swap_remove(i);
             }
         }
     }
