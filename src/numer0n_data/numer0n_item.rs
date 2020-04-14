@@ -7,15 +7,15 @@ use crate::packed_decimal::PackedDecimal;
 #[derive(Copy, Clone)]
 pub struct Numer0nItem {
     pub packed_decimal: PackedDecimal,
-    pub bit_array: [BitTable; 4],
+    pub overlap_array: [usize; 10],
     pub bit_table: BitTable,
 }
 impl Numer0nItem {
     pub fn from(num: i32) -> Self {
         Numer0nItem {
             packed_decimal: packed_decimal::i32_to_packed_decimal(num),
-            bit_array: (0..4).fold([0 as BitTable; 4], |mut acc, x| {
-                acc[3-x] = bit_table::from_one_digit(num / 10i32.pow(x as u32) % 10);
+            overlap_array: (0..4).fold([0; 10], |mut acc, x| {
+                acc[num as usize / 10usize.pow(x as u32) % 10] += 1;
                 acc
             }),
             bit_table: bit_table::from_multiple_digits(num, 4),
@@ -28,7 +28,11 @@ impl Numer0nItem {
     }
     
     pub fn eat_bite(self, call: &Self) -> usize {
-        (0..4).fold(0, |eb, i| if (self.bit_table & call.bit_array[i]) > 0 { eb + 1 } else { eb }) 
+        let and = self.bit_table & call.bit_table;
+        (0..and.count_ones()).fold((0usize, 0usize, and), |(num, eb, and), _| {
+            let shift = and.trailing_zeros() as usize + 1;
+            (num+shift, eb + call.overlap_array[num+shift-1], and >> shift)
+        }).1
     }
 }
 impl std::cmp::PartialEq for Numer0nItem {
@@ -38,6 +42,6 @@ impl std::cmp::PartialEq for Numer0nItem {
 }
 impl std::fmt::Display for Numer0nItem {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "{}{}{}{}", self.bit_array[0].trailing_zeros(), self.bit_array[1].trailing_zeros(), self.bit_array[2].trailing_zeros(), self.bit_array[3].trailing_zeros())
+        write!(f, "{:>04}", (0..4).fold(0, |acc, i| (self.packed_decimal << (12-4*i) >> 12) + acc*10))
     }
 }
