@@ -13,12 +13,12 @@ pub struct Numer0nItem {
 impl Numer0nItem {
     pub fn from(num: i32) -> Self {
         Numer0nItem {
-            packed_decimal: packed_decimal::i32_to_packed_decimal(num),
+            packed_decimal: packed_decimal::from(num, 4),
             overlap_array: (0..4).fold([0; 10], |mut acc, x| {
                 acc[num as usize / 10usize.pow(x as u32) % 10] += 1;
                 acc
             }),
-            bit_table: bit_table::from_multiple_digits(num, 4),
+            bit_table: bit_table::from(num, 4),
         }
     }
 

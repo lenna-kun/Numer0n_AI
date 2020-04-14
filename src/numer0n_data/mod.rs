@@ -119,7 +119,7 @@ impl Numer0nData {
         if self.cand.len() == 10000 {
             self.print_progress(1, 2);
             return;
-        } else if self.call.packed_decimal == packed_decimal::i32_to_packed_decimal(9987) {
+        } else if self.call.packed_decimal == packed_decimal::from(9987, 4) {
             self.call_from_branch_table();
             self.print_progress(1, 2);
             return;
