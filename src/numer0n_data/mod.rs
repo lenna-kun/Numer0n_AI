@@ -3,7 +3,6 @@ use super::packed_decimal;
 use super::stdin;
 
 mod numer0n_item;
-mod numer0n_items;
 
 pub struct Numer0nData {
     cand: Vec<numer0n_item::Numer0nItem>,
