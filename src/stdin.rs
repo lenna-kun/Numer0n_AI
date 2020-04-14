@@ -24,7 +24,7 @@ pub fn read_pair(var1: Pair, var2: Pair) -> std::result::Result<(), Error> {
     let mut v1: usize = 0;
     let mut v2: usize = 0;
 
-    write!(stdout, "\x1b[1m\x1b[{}G{}:   {}:  {}{}\x1b[91m",
+    write!(stdout, "\x1b[1m\x1b[{}G{}:   {}:  {}{}\x1b[0m",
         3, var1.1, var2.1, 
         cursor::Left((5+var2.1.len()) as u16), cursor::Show).unwrap();
     stdout.flush().unwrap();
@@ -55,11 +55,11 @@ pub fn read_pair(var1: Pair, var2: Pair) -> std::result::Result<(), Error> {
                 if input_cnt == 0 { 
                     v1 = num;
                     input_cnt += 1;
-                    write!(stdout, "\x1b[{}G{}{}", 5 + var1.1.len(), v1, cursor::Right((3+var2.1.len()) as u16)).unwrap();
+                    write!(stdout, "\x1b[1m\x1b[91m\x1b[{}G{}{}\x1b[0m", 5 + var1.1.len(), v1, cursor::Right((3+var2.1.len()) as u16)).unwrap();
                 } else if input_cnt == 1 {
                     v2 = num;
                     input_cnt += 1;
-                    write!(stdout, "\x1b[{}G{}", 9 + var1.1.len() + var2.1.len(), v2).unwrap();
+                    write!(stdout, "\x1b[1m\x1b[91m\x1b[{}G{}\x1b[0m", 9 + var1.1.len() + var2.1.len(), v2).unwrap();
                 }
                 stdout.flush().unwrap();
             },
