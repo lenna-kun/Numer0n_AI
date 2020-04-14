@@ -35,16 +35,16 @@ impl Numer0nData {
             0 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[3345];
+                        self.call = self.all_numer0n_items.0[6654];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[3415];
+                        self.call = self.all_numer0n_items.0[6584];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[0345];
+                        self.call = self.all_numer0n_items.0[0912];
                     },
                     3 => {
-                        self.call = self.all_numer0n_items.0[3415];
+                        self.call = self.all_numer0n_items.0[0127];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -52,16 +52,16 @@ impl Numer0nData {
             1 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[1134];
+                        self.call = self.all_numer0n_items.0[8865];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[0304];
+                        self.call = self.all_numer0n_items.0[9695];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[0113];
+                        self.call = self.all_numer0n_items.0[9886];
                     },
                     3 => {
-                        self.call = self.all_numer0n_items.0[0345];
+                        self.call = self.all_numer0n_items.0[0912];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -69,13 +69,13 @@ impl Numer0nData {
             2 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[3405];
+                        self.call = self.all_numer0n_items.0[6594];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[0121];
+                        self.call = self.all_numer0n_items.0[7978];
                     },
                     2 => {
-                        self.call = self.all_numer0n_items.0[0345];
+                        self.call = self.all_numer0n_items.0[0127];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -83,10 +83,10 @@ impl Numer0nData {
             3 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[1120];
+                        self.call = self.all_numer0n_items.0[7798];
                     },
                     1 => {
-                        self.call = self.all_numer0n_items.0[0121];
+                        self.call = self.all_numer0n_items.0[9878];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -94,7 +94,7 @@ impl Numer0nData {
             4 => {
                 match self.eat {
                     0 => {
-                        self.call = self.all_numer0n_items.0[1120];
+                        self.call = self.all_numer0n_items.0[8879];
                     },
                     _ => panic!("unexpected error."),
                 }
