@@ -22,9 +22,9 @@ impl Numer0nData {
             );
         println!("\x1b[1G\x1b[1m\x1b[92mInitialized\x1b[0m");
         Numer0nData {
+            call: all_numer0n_items.0[9987],
             cand: all_numer0n_items.clone(),
             all_numer0n_items: all_numer0n_items,
-            call: numer0n_item::Numer0nItem::from(9987),
             eat: 0,
             bite: 0,
         }
@@ -35,16 +35,16 @@ impl Numer0nData {
             0 => {
                 match self.eat {
                     0 => {
-                        self.call = numer0n_item::Numer0nItem::from(3345);
+                        self.call = self.all_numer0n_items.0[3345];
                     },
                     1 => {
-                        self.call = numer0n_item::Numer0nItem::from(3415);
+                        self.call = self.all_numer0n_items.0[3415];
                     },
                     2 => {
-                        self.call = numer0n_item::Numer0nItem::from(0345);
+                        self.call = self.all_numer0n_items.0[0345];
                     },
                     3 => {
-                        self.call = numer0n_item::Numer0nItem::from(3415);
+                        self.call = self.all_numer0n_items.0[3415];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -52,16 +52,16 @@ impl Numer0nData {
             1 => {
                 match self.eat {
                     0 => {
-                        self.call = numer0n_item::Numer0nItem::from(1134);
+                        self.call = self.all_numer0n_items.0[1134];
                     },
                     1 => {
-                        self.call = numer0n_item::Numer0nItem::from(0304);
+                        self.call = self.all_numer0n_items.0[0304];
                     },
                     2 => {
-                        self.call = numer0n_item::Numer0nItem::from(0113);
+                        self.call = self.all_numer0n_items.0[0113];
                     },
                     3 => {
-                        self.call = numer0n_item::Numer0nItem::from(0345);
+                        self.call = self.all_numer0n_items.0[0345];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -69,13 +69,13 @@ impl Numer0nData {
             2 => {
                 match self.eat {
                     0 => {
-                        self.call = numer0n_item::Numer0nItem::from(3405);
+                        self.call = self.all_numer0n_items.0[3405];
                     },
                     1 => {
-                        self.call = numer0n_item::Numer0nItem::from(0121);
+                        self.call = self.all_numer0n_items.0[0121];
                     },
                     2 => {
-                        self.call = numer0n_item::Numer0nItem::from(0345);
+                        self.call = self.all_numer0n_items.0[0345];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -83,10 +83,10 @@ impl Numer0nData {
             3 => {
                 match self.eat {
                     0 => {
-                        self.call = numer0n_item::Numer0nItem::from(1120);
+                        self.call = self.all_numer0n_items.0[1120];
                     },
                     1 => {
-                        self.call = numer0n_item::Numer0nItem::from(0121);
+                        self.call = self.all_numer0n_items.0[0121];
                     },
                     _ => panic!("unexpected error."),
                 }
@@ -94,7 +94,7 @@ impl Numer0nData {
             4 => {
                 match self.eat {
                     0 => {
-                        self.call = numer0n_item::Numer0nItem::from(1120);
+                        self.call = self.all_numer0n_items.0[1120];
                     },
                     _ => panic!("unexpected error."),
                 }
