@@ -49,7 +49,7 @@ pub fn read_pair(var1: Pair, var2: Pair) -> std::result::Result<(), Error> {
                 stdout.flush().unwrap();
             },
             Event::Key(Key::Char(c)) => {
-                let num: usize = if c as u8 >= b'0' && c as u8 <= b'9' {
+                let num: usize = if c as u8 >= b'0' && c as u8 <= b'4' {
                     (c as u8 - b'0') as usize
                 } else { continue };
                 if input_cnt == 0 { 
